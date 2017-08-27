@@ -16,7 +16,9 @@ There are 3 parameters `Kp`, `Ki`, and `Kd` in PID control, stands for proportio
 
 And here's a good animation show how these component take effects from wikipedia.
 
-![PID demo](https://en.wikipedia.org/wiki/PID_controller#/media/File:PID_Compensation_Animated.gif)
+[pid_effects]: https://en.wikipedia.org/wiki/PID_controller#/media/File:PID_Compensation_Animated.gif  "PID effects"
+
+![PID Effects][pid_effects]
 
 
 ## Parameter Tuning
