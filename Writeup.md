@@ -28,3 +28,5 @@ I do manual tuning for these 3 parameters. Since the simulator have some limitat
 1. I tune Kp parameter first, set `[Kp, Ki, Kd] = [1, 0, 0]` as initial start point. Obviously, it's too large that the car quickly get oscillation. I then try to decrease the Kp value to decrease the overshoot until the original steer angle is in between `[-1, 1]`. Finally, `0.1f` seems to be work.
 2. Then I add integral part to tune, set `[Kp, Ki, Kd] = [0.1, 1, 0]`. It is obviousely too large Ki, decrease it and seems `0.00001` is a good value.
 3. Finally, I use differential part to minimize the overshoot, set `[Kp, Ki, Kd] = [0.1, 0.00001, 1]`. It still have some overshooting, increase the Kd value, and final value is 4.
+
+So, my final parameters are `[Kp, Ki, Kd] = [0.1, 0.00001, 4.0]`.
