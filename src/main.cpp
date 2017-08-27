@@ -7,6 +7,10 @@
 // for convenience
 using json = nlohmann::json;
 
+static const double Kp_Def = 0.1f;
+static const double Ki_Def = 0.00001f;
+static const double Kd_Def = 4.0f;
+
 // For converting back and forth between radians and degrees.
 constexpr double pi() { return M_PI; }
 double deg2rad(double x) { return x * pi() / 180; }
@@ -28,13 +32,21 @@ std::string hasData(std::string s) {
   return "";
 }
 
-int main()
+int main(int argc, char * argv[])
 {
   uWS::Hub h;
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(0.1, 0.001, 0.9);
+  double Kp = Kp_Def;
+  double Ki = Ki_Def;
+  double Kd = Kd_Def;
+  if (argc == 4) {
+    Kp = atof(argv[1]);
+    Ki = atof(argv[2]);
+    Kd = atof(argv[3]);
+  }
+  pid.Init(Kp, Ki, Kd);
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -59,12 +71,12 @@ int main()
           * another PID controller to control the speed!
           */
           pid.UpdateError(cte);
-          steer_value = pid.TotalError();
+          double orig_steer_value = pid.TotalError();
 
-          steer_value = steer_value > 1.0 ? 1.0 : (steer_value < -1.0 ? -1.0 : steer_value);
+          steer_value = orig_steer_value > 1.0 ? 1.0 : (orig_steer_value < -1.0 ? -1.0 : orig_steer_value);
           
           // DEBUG
-          std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
+          std::cout << "CTE: " << cte << " Steering Value: " << orig_steer_value << "/" << steer_value << std::endl;
 
           json msgJson;
           msgJson["steering_angle"] = steer_value;

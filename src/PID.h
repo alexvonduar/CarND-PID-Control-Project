@@ -17,6 +17,8 @@ public:
   double Ki;
   double Kd;
 
+  long iter;
+
   /*
   * Constructor
   */
